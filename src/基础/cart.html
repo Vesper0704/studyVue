@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <script src="https://unpkg.com/vue"></script>
+
+<style>
+    table{
+        border: 1px solid;
+        border-collapse: collapse;
+        border-spacing:0;
+        empty-cells: show;
+    }
+
+    th,td{
+        padding:8px 16px;
+        border:1px solid;
+        text-align:left;
+    }
+
+    th{
+        background: #d22c2c;
+        color: aqua;
+        font-weight:500;
+        white-space:nowrap;
+    }
+</style>
+</head>
+
+<body>
+<div id="box" v-cloak>
+    <div v-if="goods.length===0">  购物车为空 </div>
+
+<template v-if="goods.length">
+    <table >
+<!--        make a table head-->
+        <thead>
+        <tr>
+            <th></th>
+            <th>name</th>
+            <th>price</th>
+            <th>count</th>
+            <th>operation</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr v-for="(item,index) in goods">
+            <td> {{index+1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+            <td>
+                <button @click="handlereduce(index)">-</button>
+                {{item.count}}
+                <button @click="handleadd(index)">+</button>
+            </td>
+            <td>
+                <button @click="removeitem(index)">delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>Total price:{{totalprice}}</div>
+
+    <ul>
+        <li v-for="(item,index) in goods" :key="item.id">
+<!--如果勾选 group数组中就会增加勾选的value-->
+            <input type="checkbox" v-model="group" :value="item" @click="select"/>名称：{{item.name}} 单价: {{item.price}}
+<div>
+                <button @click="handlereduce(index)">-</button>
+                {{item.count}}
+                <button @click="handleadd(index)">+</button>
+</div>
+
+        </li>
+    </ul>
+    <div><button @click="selectAll">全选/取消全选</button></div>
+    <div>
+        total price:{{getsum()}}
+    </div>
+</template>
+</div>
+
+
+<script>
+    var app = new Vue({
+        el:"#box",
+
+        data:{
+            goods:[
+                {
+                    id:1,
+                name:"book",
+                price:10,
+                    count:1
+                },
+                {
+                    id:2,
+                    name:"pen",
+                    price :5,
+                    count:1,
+                },
+                {
+                    id:3,
+                    name:"apple",
+                    price:2,
+                    count:2
+                },
+
+
+                    ],
+            group:[],
+            },
+
+
+        methods:{
+            handleadd(index){
+                this.goods[index].count+=1;
+            },
+            handlereduce(index){
+                if(this.goods[index].count===1)
+                    //this.goods.splice(index,1)
+                    window.alert("不能再减少了")
+
+                else{
+                    this.goods[index].count-=1;
+                }
+
+            },
+            removeitem(index){
+                this.goods.splice(index,1)
+            },
+            select(evt){
+                console.log(evt.target);
+            },
+            getsum(){
+                var total = 0;
+                console.log(this.group)
+                // for(var i=0;i<this.group.length;i++)
+                // {
+                //     total+=this.group[i].price*this.group[i].count
+                // }
+                // console.log(total);
+                this.group.forEach(item=>{
+                    total+=item.price*item.count
+                })
+                return total.toString();
+            },
+            selectAll(){
+                this.group = this.group.length===0?this.goods:[];
+            },
+            increase(){
+
+            },
+            decrease(){
+
+            }
+        },
+
+        computed:{
+            totalprice:function(){
+                var price =0 ;
+                for( var index= 0;index<this.goods.length;index++)
+                {
+                    price+=this.goods[index].count * this.goods[index].price
+                }
+
+                return price.toString();
+            }
+        }
+
+    })
+</script>
+
+</body>
+
+
+</html>

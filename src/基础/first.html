@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My first Vue app</title>
+    <script src="https://unpkg.com/vue"></script>
+
+<style>
+    input:{
+        background-color: #9d9d16;
+    }
+</style>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+    <p><input type="text" v-model="message"/></p>
+
+<!--    <ul>-->
+<!--    <li v-for="(item,index) in list">-->
+<!--     <button @click="delete2(index)">-</button>   {{item}}-->
+<!--        <button @click="add2(index)">+</button>-->
+
+<!--    </li>-->
+<!--</ul>-->
+
+<!--    <input type="text" v-model="getText"/>   <button @click="pushlist">push into list</button>-->
+<!--    <ul>-->
+<!--        <li v-for="item in list">-->
+<!--        {{item}}-->
+<!--    </ul>-->
+
+<!--    <div v-bind:style="styleobj" @click="handlestyle">动态切换style</div>-->
+<!--    <div :class="classobj" @click="handleclass" style="background-color: chocolate">动态增减class</div>-->
+<!--    <img v-show="showimg" :src="imgurl" width="200" height="200"/>  　<button @click="showimg=!showimg"> 隐藏/显示图片</button>-->
+
+    <input type="text" v-model="getText"/>
+    <button @click="pushlist">push into list</button>
+    <div v-if="list.length===0">不显示任何语言</div>
+    <ol v-else>
+        <li v-for="(item,index) in list">
+            {{item}}   <button @click="deleteItem(index)">del</button>
+        </li>
+
+    </ol>
+
+    <!--    遍历对象-->
+    <p style="background-color: bisque">遍历对象</p>
+    <ol>
+    <!--注意顺序-->
+        <li v-for="(value,key,index) in animalObj">
+            {{key}} --- {{value}} --- {{index}}
+        </li>
+<!--        遍历1-10-->
+        <ul>
+            <li v-for=" i of 10">
+                {{i}}
+            </li>
+        </ul>
+    </ol>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            list:["vue","java","C","python"],
+            getText:"",
+            styleobj:{
+                backgroundColor:"yellow",
+                backgroundSize:"30",
+                fontsize:"20px"
+            },
+            showimg:true,
+            imgurl:"https://static.runoob.com/images/demo/demo1.jpg",
+            classobj:{
+                a:true,
+                b:true,
+                c:true,
+            },
+
+            animalObj:{
+                name:"cat",
+                age:18,
+                hair:"long",
+            }
+        },
+        methods:{
+            pushlist(){
+                if(this.getText!="" && !this.list.includes(this.getText))
+                    this.list.push(this.getText)
+                else{
+                    //window.confirm(this.getText+"已存在")
+                    if(this.getText==="")
+                        alert("不可插入空值")
+                    else
+                        alert(this.getText+"已存在")
+                }
+            },
+            deleteItem(index){
+                this.list.splice(index,1)
+            },
+            // handlestyle(){
+            //     console.log(this.styleobj.fontsize)
+            //     this.styleobj.fontsize =this.styleobj.fontsize ==="30px"?"20px":"30px";
+            // },
+            // handleclass(){
+            //     //console.log(this.classobj.hasOwnProperty("d"))
+            //     if(!this.classobj.hasOwnProperty("d"))
+            //         Vue.set(this.classobj,"d",true);
+            //     else {
+            //         this.classobj.d =!this.classobj.d
+            //     }
+            // }
+        }
+    })
+</script>
+</body>
+</html>

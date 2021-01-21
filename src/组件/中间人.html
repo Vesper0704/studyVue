@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中间人</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+<button @click="handleajax">ajax</button>
+    <file-item v-for="item in datalist" :key="item.id" :myitem="item" @myevent="handleEvent"></file-item>
+
+    <film-detail :detail="info"></film-detail>
+</div>
+
+<script>
+    //孩子和孩子之间通信  引入中间人模式 比较简单
+    Vue.component("file-item",{
+            template:`
+              <div>
+              {{myitem.year}}
+              {{myitem.title}}
+              <button @click="showme(myitem.url)" >详情</button>
+              </div>
+            `,
+        methods:{
+                showme(data){
+                    this.$emit("myevent",data)
+                    console.log(data)
+                }
+        },
+        props:{
+               myitem:null
+        },
+    })
+
+    Vue.component("film-detail",{
+        template:
+        `
+       <div>
+       <textarea> {{detail}} </textarea>
+       </div>
+        `,
+        props:["detail"]
+    })
+
+
+    var app = new Vue({
+        el: "#app",
+        data:{
+            datalist:[],
+            info:''
+        },
+        methods:{
+            handleajax(){
+                axios.get("./movie.json").then(res=>{
+                    console.log(res.data)
+                    this.datalist=res.data
+                })
+            },
+            handleEvent(info){
+                console.log("来自父组件的方法",info)
+
+                this.info = info
+
+
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

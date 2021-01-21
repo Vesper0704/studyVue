@@ -1,0 +1,46 @@
+<!--取代xmlhttprequest 因为他设计粗糙 调用混乱-->
+<!--ajax异步请求模型-->
+<!--caniuse.com 查看兼容性-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<button @click="handlefetch()">ajax-fetch</button>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+
+        },
+        methods:{
+            //fetch默认不带cookie 但是可以设置{credentials:"include"}
+            handlefetch(){
+                //get请求
+            fetch("./name.json",{credentials:"include"})
+                .then(res=>{
+                    //res包含一系列请求码等等
+                    console.log(res)
+                    return res.json()  //转化成json对象
+                })
+                .then(res=>{
+                    //这个res才是真正的数据
+                    console.log(res)
+                })
+            },
+
+        }
+
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+parent
+<!--    myEvent is a method in parent, a listener that relates to the child component-->
+    <child @myevent="handleEvent"> </child>
+</div>
+
+<script>
+    Vue.component("child",{
+        template:`<div>
+        <button @click="passParent">click</button>
+        child
+        </div>`,
+        data(){
+            return{
+                money:200,  //怎么把钱传给父？
+            }
+        },
+        methods:{
+            passParent(){
+               //分发 点击按钮之后触发
+                this.$emit("myevent",this.money)
+            }
+        },
+        props:{
+
+        }
+    })
+
+    //this is actually the parent component
+    var app = new Vue({
+        el: "#app",
+        data:{
+            info:''
+        },
+        methods:{
+            //data 就是一个参数 接收来自子组件的数据
+            handleEvent(data){
+                console.log("defined in parent",data)
+                this.info=data
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

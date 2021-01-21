@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父传子</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<!--    记得绑定 myshow 要不传进去的是字符串而不是布尔值 -->
+<!--    父组件传入子组件  组件之间无法直接进行通信-->
+<tab mytitle="导航" :myshow="true" :mymsg="msg">  </tab>
+    {{msg}}
+    <tab mytitle="购物车" ></tab>  <!--不传就看组件中props定义的默认值-->
+    <tab mytitle="首页" :myshow="false"></tab>
+</div>
+
+<script>
+    Vue.component("tab",{
+        template:`
+        <div>
+        <button v-show="myshow">back</button>
+        <span > 标签--{{mytitle}} </span>
+        <button v-show="myshow">next</button>
+        </div>
+            `  ,
+        props:{
+            mytitle:{
+                type:String,
+                default:"默认名字"
+            },
+            myshow:{
+                type:Boolean,   //指定期望接受的属性类型
+                default:true  //默认显示
+            },
+            mymsg:{
+                type:String,
+            }
+        }, //父组件传进来的
+
+        methods:{
+
+        }
+    })
+
+    var app = new Vue({
+        el: "#app",
+    data:{
+            msg:"msg from parent"
+    }
+    })
+</script>
+</body>
+</html>

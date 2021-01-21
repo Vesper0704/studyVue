@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+
+<div id="app">
+    <button @click="start()">start</button>
+    <button @click="stop()">stop</button>
+    <div> {{msg}} </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+
+        data:{
+            msg:'hello and I AM YOUR DAD!',
+            inetrvalid:null,
+        },
+
+        methods:{
+            /*
+            需要一个计时器
+             */
+            start(){
+                /*
+                防止定时器多开
+                 */
+                if(!this.inetrvalid) {
+                    this.inetrvalid = setInterval(() => {    //箭头函数解决this指向的问题
+                        var start = this.msg.substring(0, 1);
+                        var end = this.msg.substring(1);
+                        this.msg = end + start;  //重新拼接
+                    }, 200)
+                }
+                else{
+                    return;
+                }
+        },
+
+            stop(){  //停止定时器
+                clearInterval(this.inetrvalid)
+                //清除为null
+                this.inetrvalid=null;
+                }
+            }
+
+    })
+</script>
+</body>
+</html>

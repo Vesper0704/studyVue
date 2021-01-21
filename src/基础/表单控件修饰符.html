@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单控件修饰符</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="box">
+<!--   失去焦点时才更新 不要求实时同步 -->
+    <div>用户名<input type="text" v-model.lazy="username"/></div> {{user1}}
+<!--    trim去掉收尾空格 -->
+    <div>密码<input type="password" v-model.trim="mypassword"/></div>  {{mypassword}}
+    <div>年龄<input type="number" v-model.number="age"/></div>{{age}}
+
+
+    <div><button @click="getText">submit</button></div>
+
+</div>
+<script>
+    var box = new Vue({
+        el:"#box",
+        data:{
+            list:[],
+            username:"",
+            mypassword:"",
+            age:'',
+
+        },
+        methods:{
+            getText(){
+              console.log(this.username, this.password)
+            }
+        },
+        computed:{
+            user1:function(){
+                return this.username.substring(0,1).toUpperCase()+this.username.substring(1)
+            }
+        }
+    })
+</script>
+</body>
+</html>

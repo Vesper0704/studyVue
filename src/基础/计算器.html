@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        select{
+            width:80px
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <input type="text" v-model="left"/>
+
+    <select v-model="opt" >
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" v-model="right"/>
+    <button @click="cal()">=</button>
+
+    <input type="number" v-model="res"/>
+
+
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            opt:'+',
+            left:0,
+            right:0,
+            res:0,
+        },
+        methods:{
+            cal(){
+                switch(this.opt)
+                {
+                    case '+':
+                        this.res = parseInt(this.left) + parseInt(this.right)
+                        break;
+                        case '-':
+                            this.res = parseInt(this.left) - parseInt(this.right)
+                        break;
+                            case '*':
+                                this.res = parseInt(this.left) * parseInt(this.right)
+                        break;
+                                case '/':
+                                    this.res = parseInt(this.left) / parseInt(this.right)
+                        break;
+
+                }
+
+
+}
+        }
+
+    })
+</script>
+</body>
+</html>

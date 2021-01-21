@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+
+    <style>
+        .activate{
+            letter-spacing: 0.5em;
+        }
+
+        .italic{
+            font-style:italic;
+        }
+
+        .cute{
+            font-family:'Comic Sans MS';
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+    <h1 :class="flag?classobj:''">hello there!</h1>
+    <button @click="change()">change style</button>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            classobj:{
+                activate:true,
+                italic:true,
+                cute:true
+            },
+            flag:true,
+        },
+
+        methods:{
+            change(){
+                this.flag= !this.flag
+                console.log(this.flag)
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

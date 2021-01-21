@@ -1,0 +1,35 @@
+<!--mixins混用  实现可复用  不同文件有共用的一些方法或者属性-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="handleclick1"> button1 </button>
+</div>
+<script>
+    const obj = {
+    methods:{
+     handleclick1(){
+         console.log("外部定义click1")
+     },
+    },
+    }
+
+
+    var app = new Vue({
+        el:"#app",
+
+        mixins:[obj],  //混入外部的一些方法
+        methods:{
+            handleclick1(){
+                console.log("内部定义click1")  //函数名字一样的时候会优先使用内部定义
+            }
+        }
+    })
+</script>
+</body>
+</html>

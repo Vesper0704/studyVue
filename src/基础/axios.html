@@ -1,0 +1,54 @@
+<!--axios是第三方库 也可用于react-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+<!--    引入axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+<button @click="handleaxios()"> axios get请求 </button>
+    <button @click="handlepost()"> axios post请求 </button>
+
+    <ul>
+        <li v-for="item in movielist" :key="item.id">
+         <img :src="item.img.replace('w.h','')+'@1l_1e_1c_50w_100h'"> {{item.nm}} 评分{{item.sc}}
+        </li>
+    </ul>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            movielist:[],
+        },
+        methods:{
+            handleaxios(){
+                axios.get("./name.json").then(res=>{
+                    console.log(res.data)
+                })
+            },
+
+                    handlepost(){
+                    //相比fetch的post 非常简洁  只需要第二个参数传入格式
+                    axios.post("./movie.json","name=kerwin&age=10")
+                        .then(res=>{
+                            console.log(res.data.movieList)
+                            this.movielist=res.data.movieList
+                        })
+                },
+
+            },
+
+
+
+    })
+</script>
+</body>
+</html>

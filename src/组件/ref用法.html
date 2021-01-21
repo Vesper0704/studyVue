@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<!-- ref -->
+<body>
+<div id="app">
+<!--   ref 后面只是一个占位符 这种方法不用v-model 也可以拿到输入框的value -->
+<input type="text" ref="mytext"/> <button @click="handleAdd"> add </button>
+    <ul>
+        <li v-for="each in list">
+            {{each}}
+        </li>
+    </ul>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            list:[],
+        },
+        //ref 放在标签上 拿到的是原生节点
+        //放在组件上就可以改变一些状态（不要这么用！）
+        methods:{
+            handleAdd(){
+                console.log(this.$refs.mytext.value)
+                var ele = this.$refs.mytext.value
+                if(ele!=="")
+                    this.list.push(ele)
+            }
+        },
+        computed:{
+            filterdata(){
+                var filter=[];
+                this.list.forEach(res=>{
+                    if(res!=="")
+                        filter.push(res)
+                }
+                )
+                return filter
+                }
+            },
+
+
+    })
+</script>
+</body>
+</html>

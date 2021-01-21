@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<!--    v-model绑定的值记得在父组件data{} 中定义  -->
+<bar type="text" title="username" v-model="username"></bar>
+<bar type="password" title="password" v-model="password"></bar>
+
+<button @click="submit">submit</button>
+<button @click="reset">reset</button>
+
+</div>
+
+<script>
+    Vue.component("bar",{
+        template:`
+        <div>
+        <span>{{title}} -- {{value}}</span>
+        <input :type="type" :value="value" style="background-color: burlywood;font-size:20px" @input="handleinput" />
+        </div>
+        `,
+        props:["type","title","value"] , //value就是v-model传进来的值 语法糖 固定参数名value
+        data(){
+            return{
+
+            }
+        },
+        methods:{
+
+handleinput(evt){
+    this.$emit("input",evt.target.value) //input事件监听 也就是上面的输入框的值改变 传给父组件
+}
+        }
+
+    })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            username:'',
+            password:''
+        },
+        methods:{
+            submit(){
+                console.log(this.username,this.password)
+            },
+            reset(){
+                this.username='';
+                    this.password=''
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

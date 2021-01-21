@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单绑定</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id = "app">
+    <textarea v-model="msg" value="input something" style=""> textArea </textarea>
+
+<!--    多选绑定一个数组 -->
+    <h2>checkbox多选框</h2>
+    <input type="checkbox" v-model="checkgroup" value="vue"/>vue
+    <input type="checkbox" v-model="checkgroup" value="js"/>js
+    <input type="checkbox" v-model="checkgroup" value="java"/>java
+    <input type="checkbox" v-model="checkgroup" value="golang">golang
+    <button @click="selectall">全选</button>
+    <div>
+        <button @click="submit" >submit</button>
+    </div>
+
+
+    <h2>记住用户名-checkbox</h2>
+    <input type="checkbox" v-model="isRemember"/>记住用户名
+    <div>
+        <button @click="login()">登陆</button>
+    </div>
+
+
+<!--    单选只用绑定一个值-->
+    <h2>单选 radiobutton</h2>
+    <input type="radio" v-model="favor" value="vue" name="language"/>vue
+    <input type="radio" v-model="favor" value="js" name="language"/>js
+    <input type="radio" v-model="favor" value="java" name="language"/>java
+    <input type="radio" v-model="favor" value="golang" name="language">golang
+    <div>
+        <button @click="choose">
+            select
+        </button>
+    </div>
+
+</div>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            msg:"",
+            checkgroup:[],
+            backup:["vue","js","golang","java"],
+            isRemember:false,
+            favor:"vue"
+        },
+        methods:{
+            submit(){
+                console.log(this.checkgroup)
+            },
+            selectall(){
+               this.checkgroup=this.backup
+            },
+            login(){
+                console.log(this.isRemember)
+            },
+            choose(){
+                console.log(this.favor);
+            }
+        }
+    })
+</script>
+</body>
+</html>

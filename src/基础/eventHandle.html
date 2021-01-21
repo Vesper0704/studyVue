@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event-Handler</title>
+    <script src="https://unpkg.com/vue"></script>
+
+</head>
+<body>
+
+<div id = "app">
+
+    <template>
+    {{count}}
+    <button @click="handleAdd(1)"> +1 </button>
+    <button @click="handleAdd(2)"> +2</button>
+    <button @click="handleAdd_2($event,1)">记录点击事件 && +1</button>
+
+
+        <ol @click="handleul">
+            <li @click.stop="handleli">  <!--事件触发后阻止冒泡-->
+                    test
+            </li>
+        </ol>
+
+<!--阻止进入-->
+    <div><a :href="url" @click.prevent="handlePrevent">点击进入百度 </a></div>
+
+
+<!--.self : 只有事件源是自己的才会触发 即使不阻止冒泡 也不会发生改变-->
+        <button @click.self="isShow=!isShow" style="background-color: brown;left: 20px;right: 20px;background-size: 100px">click</button>
+        <div id="form" v-show="isShow" @click="isShow=false">
+            <div id="center" @click.stop>
+            <div>username: <input type="text" v-model="username"/></div>
+            <div>password: <input type="text" v-model="password"/></div>
+            <button @click="handleinput">LOG IN</button>
+            </div>
+        </div>
+
+<!--        once只触发一次-->
+        <div> <button @click.once="Award()">抽奖</button></div>
+
+<!--        enter之后获取文本框的值-->
+        <input type="text" @keyup.enter="handleup" v-model="msg"/>
+<!--        <button @click="list.push(msg)">add</button>-->
+        <ul>
+            <li v-for="item in list">
+                {{item}}
+            </li>
+        </ul>
+
+    </template>
+</div>
+
+<script>
+    var app = new Vue({
+        el:"#app",
+        data()
+        {
+            return{
+                count:1,
+                url:"https://www.baidu.com",
+                isShow:false,
+                username:'username',
+                password:'password',
+                list:["hello","greet","wew"],
+                msg:""
+            }
+        },
+        methods:{
+            handleAdd(num){
+                this.count+=num;
+                console.log(this.count)
+            },
+            handleAdd_2(evt,num){
+                this.count+=num;
+                console.log(this.count)
+                console.log(evt.target);
+            },
+            //阻止冒泡
+            handleul(evt){
+              //  evt.stopPropagation();
+                console.log(" ul ")
+            },
+            handleli(evt){
+                console.log("  li  ")
+            },
+            handlePrevent(evt){
+                alert("阻止进入"+this.url)
+            },
+            handleinput(){
+                    console.log(this.username+" "+this.password)
+            },
+            Award(){
+                console.log("抽奖")
+            },
+            handleup(evt){
+               //  if(evt.keycode===13)
+                this.msg = evt.target.value;
+                this.list.push(this.msg)
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

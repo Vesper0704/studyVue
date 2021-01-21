@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        /*用1.5s时间过渡*/
+        .drj-enter-active{
+            animation: aaa 1.5s;
+        }
+        .drj-leave-active{
+            animation: aaa 1.5s reverse;
+        }
+        @keyframes aaa {
+            0%{
+                opacity: 0;
+                transform :translateX(100px);
+            }
+
+            100%{
+                opacity: 1;
+                transform :translateX(0px);
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+<!--keepalive可以让组件中的内容在切换中得以保存-->
+<keep-alive>
+    <transition name="drj">
+    <component :is="iswhich"></component>
+    </transition>
+</keep-alive>
+
+    <ul>
+        <li @click="iswhich='home'">首页</li>
+        <li @click="iswhich='cart'">购物车</li>
+        <li @click="iswhich='my'">我的</li>
+    </ul>
+
+
+</div>
+
+<script>
+    Vue.component("home",{
+        template:`<div >
+        homepage</div>
+                    `,
+
+
+    })
+    Vue.component("cart",{
+        template:`<div>
+        cart
+        <input type="text" /></div>
+                `,
+
+
+    })
+    Vue.component("my",{
+        template:`<div>
+                my</div>
+                `,
+
+
+    })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            iswhich:"home"
+        }
+
+    })
+</script>
+</body>
+</html>

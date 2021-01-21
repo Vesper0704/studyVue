@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bus案例</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <button @click="getinfo"> ajax  get movie info </button>
+<film-item v-for="each in datalist" :key="each.id" :item="each"></film-item>
+
+    <film-detail></film-detail>
+</div>
+
+<script>
+
+    var bus = new Vue();
+    Vue.component("film-item",{
+        template:`
+        <div>
+        {{item.title}}
+        <button @click="handleClick">详情</button>
+        </div>
+
+        `,
+        methods:{
+            handleClick(){
+                bus.$emit("movie",this.item.url)
+            }
+        },
+        props:["item"]
+    })
+
+    Vue.component("film-detail",{
+        template:`
+       <div>
+       <textarea> {{movieurl}}</textarea>
+        </div>
+
+        `,
+        data(){
+            return{
+                movieurl:"",
+            }
+        },
+        mounted(){
+            bus.$on("movie",(data)=>{
+                console.log(data)
+                this.movieurl = data;
+            })
+            console.log("detailfield已订阅")
+
+
+        }
+    })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            datalist:[]
+        },
+        methods:
+            {
+                getinfo(){
+                    axios.get("./movie.json").then(res=>{
+                        console.log(res.data)
+                        this.datalist = res.data
+                    })
+                }
+            }
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<!--    不用插槽的话 会直接忽略组件之间的内容-->
+<child>
+    <div slot="b">
+        111
+    </div>
+    <span slot="a">
+        222
+    </span>
+</child>
+
+<navbar>
+<!--    v-slot can only be used on components or <template>.  -->
+    <template v-slot:left>
+<!--        v-slot:可以简写成#     #left       -->
+        <button> back </button>
+     返回
+    </template>
+
+    <tempalte v-slot:right>
+        <button> next </button>
+    </tempalte>
+</navbar>
+
+<!--    插槽还能这么用 -->
+    <ctrl-button>
+<!-- button这部分内容会放在插槽 也就是它是属于父组件 而不是子组件 这个show可在父组件中定义获取 方便我们下一个插件的隐藏显示-->
+<!--        省去父子组件的通信  -->
+        <button @click="show=!show"> show / hide </button>
+</ctrl-button>
+<!--    show 的值来自上面button改变的值-->
+    <content-t v-show="show"> </content-t>
+
+
+
+</div>
+
+<script>
+    Vue.component("content-t",{
+        template:`
+        <div>
+        <ul>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
+</div>`,
+
+    })
+    Vue.component("ctrl-button",{
+        template:`
+        <div>
+        ctrl-button:
+       <slot></slot>
+</div>`
+    })
+    Vue.component("navbar",{
+        template:`
+             <div>
+        <slot name="left"></slot>
+        navbar
+        <slot name="right"></slot>
+            </div>`,
+    })
+
+    Vue.component("child",{
+        //插槽
+        <!--不用name的话会把整个中间的插进来-->
+        template:`
+        <div>
+        <slot name="a"> </slot>
+        child
+        <slot name="b"> </slot>
+        </div>`,
+    })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            show:false
+        },
+
+
+
+    })
+</script>
+</body>
+</html>

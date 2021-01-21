@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>n
+    <meta charset="UTF-8">
+    <title>transition1</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+     /*用1.5s时间过渡*/
+        .drj-enter-active{
+              animation: aaa 1.5s;
+          }
+        .drj-leave-active{
+            animation: aaa 1.5s reverse;
+        }
+        @keyframes aaa {
+            0%{
+                opacity: 0;
+                transform :translateX(100px);
+            }
+
+            100%{
+                opacity: 1;
+                transform :translateX(0px);
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="drj-enter-active">
+2121
+</div>
+
+<div id="app" >
+    <button @click="isshow=!isshow" >click</button>
+
+<!--    name="drj"  自动去找drj-enter-active -->
+<!--    appear初始元素过渡  -->
+<!--    transition只能使用于单个元素过渡-->
+    <transition name="drj" appear>
+    <div v-show="isshow" key="a"> hello world! </div>
+<!--     只会显示一个 控制台报错   <div v-show="isshow"> hello world! </div>-->
+<!--        不能用两个div!! 但是可以用一个div包含两个-->
+
+    </transition>
+
+
+<!--    in-out先来再走-->
+    <transition name="drj" appear mode="in-out">
+        <div v-if="isshow" key ="a"> hello world! </div>
+<!--        <section v-else> bye bye! </section>-->
+        <!--        也可以用key-->
+        <div v-else key="b"> bye bye!</div>
+    </transition>
+
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            isshow:true
+        }
+
+    })
+</script>
+</body>
+</html>

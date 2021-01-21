@@ -1,0 +1,56 @@
+<!--实现复用-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组建引入</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<navbar></navbar>
+    <navbar></navbar>
+    <navbar></navbar>
+</div>
+
+<script>
+    //自定义组件 data必须是一个函数
+    //1.template只能有一个root  <div></div>
+    //2. 组建是孤岛 无法从外面直接访问内部方法
+    Vue.component("navbar",{
+        template: ` <div>
+            <button @click="Return()"> 返回 </button> navbar <button @click="Forward()"> 前进 </button>
+        {{myname}} <tabchild> </tabchild>
+        </div>`,
+
+        methods:{
+            Return(){
+                console.log("return")
+            },
+            Forward(){
+                console.log("forward")
+            }
+        },
+        //局部组件  私有的
+        components:{
+            "tabchild":{
+                template:`<div> tabchild in navbar</div>`
+            }
+        },
+
+        data(){
+            return{
+                myname:"component- name"
+            }
+        }
+    })
+
+
+    var app = new Vue({
+        el: "#app",
+
+    })
+</script>
+</body>
+</html>

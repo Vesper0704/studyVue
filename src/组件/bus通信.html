@@ -1,0 +1,58 @@
+<!--bus 通信 -->
+<!-- child1 *--* bus *--* child2-->
+<!-- bus.$on()   bus.$emit() -->
+<!--中央事件总线  类比微信公众号 发布者 订阅者-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bus通信</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<supplier></supplier>
+    <subscriber></subscriber>
+</div>
+
+<script>
+
+    var bus = new Vue() //空的vue实例
+
+    Vue.component("subscriber",{
+        template:
+        `<div>
+            subscriber
+        </div>
+        `,
+        //mounted:挂载 dom创建完之后自动触发 无需调用
+        mounted(){
+            console.log("mounted")
+            bus.$on("main",(data)=>{  //监听事件  data是从发布者传入的数据
+                console.log("mounted:我已订阅",data)
+            })
+        }
+    })
+
+    Vue.component("supplier",{
+        template:
+            `<div>
+           supplier : <button @click="handleClick"> 发布内容 </button>
+        </div>
+        `,
+        methods:{
+            handleClick(){
+                bus.$emit("main","我发布了内容") ///触发事件
+            }
+        }
+
+
+    })
+    var app = new Vue({
+        el: "#app",
+
+    })
+</script>
+</body>
+</html>

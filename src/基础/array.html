@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array模糊查询</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id = "array">
+<!--    @input是实时检测文本框中内容变化-->
+    <input type="text" @input="handleInput" v-model="myText"/>
+    <p>
+        匹配结果: {{filterArr()}}
+    </p>
+    <ul>
+        <li v-for="each in list">
+            {{each}}
+        </li>
+    </ul>
+
+    <button  style="background-color: chocolate; font-size:20px;  " @click="reverse">reverse the array</button>
+
+</div>
+
+
+<script>
+    var arr = new Vue(
+        {
+            el:document.getElementById("array"),
+            data:{
+                list:["java","vue","golang","C++","C#","js"],
+                // 方法一 backupList:["java","vue","golang","C++","C#","js"],
+                myText:""
+            },
+            methods:{
+                reverse()
+                {
+                    this.list.reverse()
+                },
+
+                handleInput(evt){
+                   // console.log(evt.target.value)
+                    //过滤数组
+                    // this.list.filter(item=>item.length>3)
+                    //模糊匹配
+                   // this.list =  this.backupList.filter(item=>item.includes(evt.target.value))
+                   // console.log(this.list)
+                },
+                filterArr(){
+                    var newlist = this.list.filter(item=>item.includes(this.myText))
+                    if(newlist.length)
+                    return  newlist;
+                    else
+                        return "没有匹配到"
+                }
+            }
+        }
+    )
+</script>
+</body>
+</html>
