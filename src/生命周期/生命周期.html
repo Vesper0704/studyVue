@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<span id="test">{{msg}}</span>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            msg:'hello'
+        },
+
+        methods:{
+            show(){
+                console.log("show is called")
+            }
+        },
+
+        /*
+        第一个生命周期函数 在实例完全创建之前执行
+         */
+        beforeCreate(){
+            //data 还有methods 里面的数据还没有初始化
+            console.log(this.msg)  //undefined
+        },
+
+
+        /*
+       第2个生命周期函数 在实例完全创建之前执行
+        */
+        created(){
+            //data 还有methods 里面的数据在这里初始化
+        },
+
+        /*
+       第3个生命周期函数 模版编译已经完成  还没有挂载
+        */
+        beforeMount(){
+            console.log(document.getElementById('test').innerText)  //{{msg}}
+        },
+
+        /*
+        第四个生命周期函数  页面已经渲染好了
+        这个是实例 创建 期间的最后一个生命周期函数
+        标志着实例的创建完成，运行阶段的开始
+         */
+        mounted(){
+            console.log(document.getElementById('test').innerText)  //hello
+            console.log('挂载完成 开始运行 -- mounted completed')
+        },
+
+
+        /*
+        运行中的函数  如果这个函数执行了 说明数据改变了
+         */
+        beforeUpdate(){
+            console.log(document.getElementById('test').innerText+'--beforeUpdate')  //这是更新前的数据
+
+        },
+
+        updated(){
+            console.log(document.getElementById('test').innerText+'--updated')
+        },
+
+    })
+</script>
+</body>
+</html>

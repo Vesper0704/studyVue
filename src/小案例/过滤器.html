@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<span>{{msg | myFilter('那')}}</span>
+<h4 v-html="reflink"></h4>
+    <div>
+        时间格式化的过滤器
+        {{date | dateFilter()}}
+    </div>
+
+
+</div>
+
+<div id="app2">
+<!--    使用全局过滤器-->
+    {{date | dateFilter('yyyy-mm-dd')}}
+
+    {{date | dateformat()}}
+
+    <input type="text" v-model="val" @keyup.113="add()"/>
+    <ul>
+        <li v-for="each in datalist">
+            {{each}}
+        </li>
+    </ul>
+</div>
+
+
+<script>
+    /*
+    全局过滤器  所有的app都共享
+     */
+    Vue.config.keyCodes.f2=113
+    Vue.filter('myFilter',function(msg,args){
+
+        console.log(msg);
+        return msg.replaceAll('的','嘚').replaceAll('这',args);
+
+    })
+
+    Vue.filter('dateFilter',function(date,args){
+        var dt = new Date(date)
+
+        var y = dt.getFullYear();
+        var m = (dt.getMonth()+1).toString().padStart(2,'0'); //不足两位前面补0
+        var d = dt.getDate().toString().padStart(2,'0');
+
+        var hour = dt.getHours().toString().padStart(2,'0');
+        var minute= dt.getMinutes().toString().padStart(2,'0');
+        var seconds = dt.getSeconds().toString().padStart(2,'0');
+
+        if(args && args.toLowerCase()==='yyyy-mm-dd')
+                return `${y}-${m}-${d}`;
+        else
+        {
+            return `${y}-${m}-${d} ${hour}:${minute}:${seconds}`
+        }
+
+    })
+
+    var app = new Vue({
+        el: "#app",
+        data:{
+            msg:'这是一首简单的小情歌,歌唱我们亲爱的祖国',
+            date:new Date(),
+            reflink:'<a href="""baidu.com">百度搜索</a>'
+        }
+    })
+
+    var app2 = new Vue({
+        el: "#app2",
+        data:{
+            msg:'这是一首简单的小情歌,歌唱我们亲爱的祖国',
+            date:new Date().toISOString(),
+            datalist:[],
+            val:''
+        },
+        methods:{
+            add(){
+                console.log(this.val)
+                this.datalist.push(this.val);
+            }
+        },
+        /*
+        私有过滤器   名称+执行函数
+         */
+        filters:{
+            dateformat:function(date,args){
+                var dt = new Date(date)
+
+                var y = dt.getFullYear();
+                var m = dt.getMonth()+1;
+                var d = dt.getDate();
+
+                var hour = dt.getHours();
+                var minute= dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if(args && args.toLowerCase()==='yyyy-mm-dd')
+                    return `${y}-${m}-${d}`;
+                else
+                {
+                    return `${y}-${m}-${d} ${hour}:${minute}:${seconds}`
+                }
+            }
+
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+生命周期函数 = 生命周期事件  = 生命周期钩子
+
+new Vue()
+|
+init Events & lifecycles （data methods还没有初始化 ）
+|
+beforeCreate()
+|
+init injections & reactivity  （data methods被初始化）
+|
+created()
+|
+template compilation  在内存中渲染好模版DOM  还没有挂在页面中
+|
+beforeMount()  //挂载之前
+|
+将内存中编译好的模版放在页面中
+|
+mounted()   挂载完成 实例创建完成
+|
+if data changes
+|
+beforeUpdate()  //当数据发生改变的时候  数据不变就不会执行 最少可以执行 0 次
+|
+| Virtual DOM re-render and patch
+|
+updated()  //数据已经被更新
+|
+beforeDestroy()  //实例进入销毁阶段 ，实例身上所有的data methods filters directives ... 都还处在可用状态
+|
+destroyed()   //实例身上所有的data methods filters directives ... 都不可用 销毁完成
+
+

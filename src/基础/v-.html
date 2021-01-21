@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -22,12 +22,13 @@
 </head>
 
 <body>
+
 <div id="app">
 <!--    v-cloak解决闪烁问题 -->
-<p v-cloak>{{msg}}</p>
+<p v-cloak >{{msg}}</p>
 
 <!--    v-text 会覆盖 标签之间的内容-->
-    <p v-text="msg">=========</p>
+    <p v-text="msg"  v-fontsize="'30px'" v-fontweight="'20'">=========</p>
 
 <!--    按照html格式解析后面跟的内容  也会覆盖 -->
     <p v-html="parsehtml">我会被覆盖</p>
@@ -49,19 +50,92 @@
 <!--    <div><input type="email"/></div>-->
 
 <!--    v-for -->
-<h3>v-for实例：</h3>
-    <div> <input type="text" v-model="item"/>  <button @click="add()">add</button></div>
+<h3 v-color="'pink'">v-for实例：</h3>
+    <div> <input type="text" v-model="item"/>
+
+        <button @click="add()">add</button>
+        请输入关键字
+<!--        自定义指令  一定要用v-的形式   -->
+<!--        自定义指令也可以传参-->
+        <input type="text" v-model="keywords" v-focus v-color="'blue'" v-fontweight="200"/>
+    </div>
+
+
+
 <ul>
-    <li v-for="(each,index) in datalist">
+    <li v-for="(each,index) in search(keywords)">
         {{index}} --- {{each}}
         <button @click="deleteI(index)">delete</button>
     </li>
 </ul>
 
+    <ul>
+        <li v-for="(val,key) in dataobj" :key="key">
+            <input type="checkbox" v-model="list" :value="val"> {{key}} --- {{val}}
+
+        </li>
+    </ul>
+
+    <button @click="show()" > show selected items </button>
+
+<div v-show="isshow">
+    {{list}}
+</div>
+
 
 </div>
 
 <script>
+    //定义全局指令( global directive不加s)  定义的时候不用加v-前缀 但是用的时候要加
+    /*
+    获取焦点
+     */
+    Vue.directive('focus',{
+        /**
+         * 绑定的时候执行
+         * @param el
+         */
+        bind:function(el){
+            //el代表原生JS对象
+            el.focus(); //其实这时候没有办法获取焦点 因为还没有插入节点
+        },
+
+        /**
+         * 元素插入DOM节点的时候执行 【触发一次】
+         */
+        inserted:function(el){
+            el.focus();
+        },
+
+        /*
+        VNode更新的时候会执行updated 可能触发多次
+         */
+        updated:function(el){
+
+        },
+    })
+
+    /*
+    设置颜色
+     */
+    Vue.directive('color',{
+        bind:function(el,binding){
+            console.log(binding.name)  //   color
+            console.log(binding.value)  //blue
+            console.log(binding.expression) //'blue'
+
+            el.style.color=binding.value  //改变颜色  内联样式可以在bind里面写好
+        },
+
+        inserted:function(el){
+
+        },
+
+        updated:function(el){
+
+        }
+    })
+
     var app = new Vue({
         el: "#app",
 
@@ -72,7 +146,16 @@
             num:0,
             number:0,
             datalist:['hello','js','html','css','Vue'],
-            item:''
+            item:'',
+            isshow:false,
+            list:[],
+            keywords:'',
+
+            dataobj:{
+                name:'drj',
+                age:18,
+                height:180,
+            }
         },
 
         methods:{
@@ -86,8 +169,43 @@
             },
             deleteI(index){
                     this.datalist.splice(index,1)
+            },
+            show(){
+                this.isshow=!this.isshow
+            },
+
+            search(keywords){
+                var item;
+                var list=[];
+                //字符串包含非空字符串''
+               this.datalist.forEach(item =>{
+                    if(item.indexOf(keywords)!=-1)
+                    {
+                     list.push(item);
+                    }
+                })
+
+                return list;
             }
+        },
+        /*
+        定义私有指令
+         */
+        directives: {
+            'fontweight': {
+                bind: function (el, binding) {
+
+                    el.style.fontWeight = binding.value
+                }
+            },
+
+            'fontsize':function(el,binding){  //简写形式 等同于把函数写到了bind和update中
+                el.style.fontSize=binding.value;
+            }
+
+
         }
+
 
     })
 </script>
