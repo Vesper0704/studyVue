@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform:translateX(150px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.5s ease;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="app">
+<com1 v-if="show"></com1>
+    <com2 v-else></com2>
+    <button @click="show=!show">change</button>
+
+<!--    一个出去之后 另一个再进来-->
+<transition mode="out-in">
+    <component :is="comName"></component>
+</transition>
+
+    <button @click="comName= comName==='com1'?'com2':'com1'">change</button>
+
+</div>
+
+<script>
+    Vue.component('com1',{
+        template: `<div>
+            <h2>组件1</h2>
+        </div>`
+    }),
+        Vue.component('com2',{
+            template:`<div>
+                <h3>组件2</h3>
+            </div>`
+        })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            show:true,
+            comName:''
+        }
+
+    })
+</script>
+</body>
+</html>

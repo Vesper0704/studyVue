@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--npm install vue-resource --registry=https://registry.npm.taobao.org-->
+<!--安装vue-resource-->
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+</head>
+<!--get post jsonp-->
+<body>
+<div id="app">
+<button @click="getinfo">get请求</button>
+    <button @click="postinfo">post请求</button>
+    <button @click="jsonpinfo">jsonp请求</button>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        methods:{
+            getinfo(){
+                    this.$http.get('https://jsonplaceholder.typicode.com/')
+                        .then(result=>{
+                                console.log(result.body)
+                            //服务器返回的成功的数据
+                    })
+            },
+            postinfo(){
+                //发起post请求  手动发起请求默认没有表单格式 有的服务器无法处理
+                //emulateJSON:boolean ==> Send request body as application/x-www-form-urlencoded content type
+                this.$http.post('http://vue.studyit.io/api/post',{},{emulateJSON:true})
+                    .then(result=>{
+                        console.log(result.body)
+                        //服务器返回的成功的数据
+                    })
+            },
+            jsonpinfo(){
+                this.$http.jsonp('http://vue.studyit.io/api/jsonp').then(result=>{
+                    console.log(result)
+                })
+            }
+
+        }
+
+    })
+</script>
+</body>
+</html>

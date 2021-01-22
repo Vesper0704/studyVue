@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--npm install vue bootstrap bootstrap-vue --registry=https://registry.npm.taobao.org-->
+<!--安装bootstrap-->
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+
+<div class="panel panel-primary">
+    <div class = "panel-heading">
+        <h3 class="panel-title">添加品牌</h3>
+
+    </div>
+    <div class="panel-body form-inline">
+        <label>
+            Name: <input type="text" v-model = "name" class="form-control"/>
+        </label>
+
+        <label>
+            <button class="btn btn-success" @click="add">
+                添加
+            </button>
+        </label>
+
+    </div>
+
+</div>
+<table class="table table-bordered table-hover table-striped">
+
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Ctime</th>
+        <th>operation</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr v-for="item in list" :key="item.id">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.ctime}}</td>
+        <td><button>delete</button></td>
+    </tr>
+    </tbody>
+
+
+
+</table>
+    <button @click="getAll">获取</button>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            name:'',
+            list:[
+                {
+                    id:1, name:'武松', ctime:new Date()
+                },
+                {
+                    id:2, name:'林冲', ctime:new Date()
+                }
+            ]
+        },
+        methods:{
+        add(){
+
+
+        },
+        getAll(){
+           axios.get('../基础/movie.json').then(result=>{
+               console.log(result.data);
+           })
+        },
+
+        }
+
+    })
+</script>
+
+</body>
+</html>

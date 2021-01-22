@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<my-component>
+hello
+</my-component>
+</div>
+
+<script>
+   var compo1 = Vue.extend({
+       template:`<div><h3>这是使用Vue.extend创建的组件</h3></div>`
+   })
+   Vue.component('myComponent',compo1)
+
+   var vm = new Vue({
+       el:"#app"
+   })
+</script>
+</body>
+</html>

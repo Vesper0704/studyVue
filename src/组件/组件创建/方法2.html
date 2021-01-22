@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<newcomp>
+
+</newcomp>
+</div>
+
+<script>
+Vue.component('newcomp',{
+    //template里面只能有一个root元素<div></div>
+    template:`<div>here!</div>`,
+    data(){
+        return{
+
+        }
+    },
+
+})
+new Vue({
+    el:"#app"
+})
+</script>
+</body>
+</html>

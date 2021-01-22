@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+
+<template id="temp1">
+    <div>
+        <h2 v-if="show">在外面进行组件结构的定义</h2>
+        <button @click="show=!show">change</button>
+        {{msg}}
+    </div>
+</template>
+
+<body>
+<div id="app">
+<mycom3></mycom3>
+    <login></login>
+</div>
+
+
+
+<script>
+    Vue.component('mycom3',{
+        template: "#temp1",
+        data(){
+            return{
+                show:true,
+                msg:'hello world'
+            }
+        }
+
+    })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            isshow:true
+        },
+        components:{  //定义实例内部私有组件
+        login:{
+           template:`<div>
+                        <h4>私有组件</h4>
+                        <button>change</button>
+                     </div>`
+       }
+        }
+    })
+</script>
+</body>
+</html>

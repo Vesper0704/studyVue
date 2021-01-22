@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+
+</div>
+
+<script>
+    function show(data){
+        console.log('show',data)  //后端传入
+    }
+</script>
+
+<!--script是不受跨域的限制的-->
+<!--发给服务器 ？后面带参数-->
+<script src="http://localhost:3000/getscript?callback=show">
+
+</script>
+</body>
+</html>
