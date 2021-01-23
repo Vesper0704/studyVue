@@ -32,6 +32,7 @@ server.on('request',function(req,res){
     }
 })
 
+//在3000端口上监听
 server.listen(3000,function (){
     console.log('listening...')
 })

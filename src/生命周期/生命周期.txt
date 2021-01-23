@@ -2,9 +2,8 @@
 
 new Vue()
 |
-init Events & lifecycles （data methods还没有初始化 ）
-|
-beforeCreate()
+init Events & lifecycles
+beforeCreate()  data methods还没有初始化
 |
 init injections & reactivity  （data methods被初始化）
 |

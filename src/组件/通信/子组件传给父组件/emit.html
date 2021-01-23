@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+
+<div id="app">
+    <div>parentmsg:{{parentmsg}}</div>
+
+<!--    方法传给子组件 v-on:func  func 是自定义的方法-->
+<!--    方法不带()  原封不动的把引用传给子组件 -->
+<child @func="show">
+
+</child>
+</div>
+
+<script>
+
+//定义一个子组件
+    Vue.component('child',{
+        template:`<div>
+<h4>child component</h4>
+        <button @click="myclick()"> child button </button>
+                    </div>`,
+
+        methods:{
+            myclick(){
+
+                console.log('child clicked')
+                //emit触发父组件传进来的方法
+                this.$emit('func',234) //还可以向父组件的函数传参
+            }
+        }
+    })
+
+    var app = new Vue({
+        el: "#app",
+        methods:{
+            show(args){
+                console.log('show from PARENT'+args)
+              //父组件也可以拿到子组件传入的这个值
+                this.parentmsg=args;
+            }
+        },
+        data:{
+            parentmsg:null
+        }
+
+    })
+</script>
+</body>
+</html>

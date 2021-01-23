@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<!--    父组件可以通过属性绑定的方式 v-bind 把需要传递给子组件的数据传入子组件内部-->
+<!--    parentmsg必须在子组件的props里面定义 -->
+<child :parentmsg="msg"></child>
+</div>
+
+<script>
+
+
+    var app = new Vue({
+        el: "#app",
+        data:{
+            msg:'父组件的msg'
+        },
+
+
+        components:{
+            //一个子组件
+            child:{
+               // Property or method "msg" is not defined on the instance but
+                // referenced during render.
+                //子组件无法直接访问父组件的data methods
+                template:`<div>i am child  {{parentmsg}}
+                            <h4>child msg---{{childmsg}}</h4>
+                          </div>`,
+                //子组件里面的props都是通过父组件传进来的
+                //props里面的数据是只读的
+                props:{
+                    parentmsg:'',
+
+                },
+                //或者可以这么写 props:['parentmsg',...]
+
+        //data上面的数据是子组件私有的 可读可写
+                data(){
+                    return{
+                        childmsg:'owned by child',
+
+                    }
+                }
+                    }
+        }
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+<div id="app">
+<ul class="list-group">
+    <li class="list-group-item" v-for="(item,index) in list" :key="item.index">
+        <span class="badge-danger">评论人:{{item.user}}</span>
+        {{item.content}}
+
+    </li>
+
+</ul>
+    <publish @func="loaddata()"></publish>
+</div>
+
+<script>
+    Vue.component('publish',{
+        template:`<div class="form-group">
+<label>
+ 评论人
+</label>
+<input type="text" class="form-group" v-model="user"/><br/>
+<label>
+内容
+</label>
+<input type="text" class="form-group" v-model="content"/>
+<br/> <button @click="publish()"> publish</button>
+</div>`,
+
+        data(){
+            return{
+                user:'',
+                content:'',
+            }
+
+        },
+
+        methods:{
+            /*
+            1. 评论数据存到 localStorage--只支持存放字符串数据  JSON.stringify()
+            2. 组织出一个最新的评论数据对象
+            3. 从localstorage获取之前的评论 如果不存在返回一个'[]' 给解析   JSON.parse()  转换成对象数组
+            4. 把最新的评论列表放入数组 用JSON.stringify转换成字符串 调用localstorage.setItem()
+             */
+            publish(){
+                var comment = {id:Date.now(),user:this.user,content:this.content}
+
+                var obj = JSON.parse(localStorage.getItem('cmts' )|| '[]')
+
+                //最新的评论在上面  类比push()
+                obj.unshift(comment)
+
+                //保存最新的
+                localStorage.setItem('cmts',JSON.stringify(obj));
+
+                this.user=this.content=''
+
+                this.$emit('func')
+
+
+            }
+        }
+    })
+    var app = new Vue({
+        el: "#app",
+        data:{
+            list:[
+                {id:Date.now(), user:'武松' ,content:'杀人者打虎武松'},
+                {id:Date.now(), user:'林冲' ,content:'高俅小儿'},
+                {id:Date.now(), user:'金莲' ,content:'叔叔何事？'},
+            ]
+        },
+
+        methods:{
+            created()
+            {
+                this.loaddata()
+            },
+            //从localstorage里面读取
+            loaddata(){
+                var objlist = JSON.parse(localStorage.getItem('cmts' ) || '[]')
+                this.list = objlist
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

@@ -9,12 +9,15 @@
 <body>
 <div id="app">
 <!--   ref 后面只是一个占位符 这种方法不用v-model 也可以拿到输入框的value -->
-<input type="text" ref="mytext"/> <button @click="handleAdd"> add </button>
+<input type="text" ref="mytext"/>
+    <button @click="handleAdd"> add </button>
     <ul>
         <li v-for="each in list">
             {{each}}
         </li>
     </ul>
+
+    <h4 ref="myh4">hello!</h4>
 </div>
 
 <script>
@@ -31,6 +34,7 @@
                 var ele = this.$refs.mytext.value
                 if(ele!=="")
                     this.list.push(ele)
+                console.log(this.$refs.myh4.innerHTML)
             }
         },
         computed:{

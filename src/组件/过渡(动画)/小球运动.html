@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <style>
+        .ball{
+            width:15px;
+            height:15px;
+            background-color: #c42727;
+            border-radius: 50%;
+
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <button class="btn btn-danger" @click="flag=!flag">move</button>
+<!--    小球运动-->
+    <transition
+    @before-enter="beforeenter"
+    @enter="enter"
+    @after-enter="afterenter"
+    >
+            <div class="ball" v-show="flag"></div>
+    </transition>
+
+
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            flag:true,
+
+        },
+        methods:{
+            beforeenter(el){
+                //设定初始位置
+
+            },
+            enter(el,done){
+                el.offsetWidth
+                el.style.transform = 'translate(150px,150px)'
+                el.style.transition='all 1s ease'
+                done()
+            },
+            afterenter(el){
+          //      this.flag=!this.flag
+      el.style.opacity='0.5'
+                el.style.transform = 'translate(0,0)'
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
