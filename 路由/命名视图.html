@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>命名视图实现经典布局</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <style>
+
+        html,body{
+            font-family: "Comic Sans MS";
+            margin:0;
+            padding:0
+        }
+        .header{
+            height:80px;
+            background-color: indianred;
+            margin: 0;
+            padding:0
+        }
+
+        .container{
+            display:flex;
+        }
+
+        .left{
+            background-color:grey;
+            flex:2;
+            height:120px;
+
+        }
+
+        .right{
+            background-color:orangered;
+            flex:8;
+
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+<router-view></router-view>
+
+    <div class="container">
+    <router-view name="left"></router-view>
+    <router-view name="right"></router-view>
+    </div>
+
+</div>
+
+<script>
+    var header = {
+        template:`<div class="header">HEADER</div>`
+    }
+
+    var leftbox = {
+        template:`<div class="left">LEFT</div>`
+    }
+
+    var rightbox= {
+        template:`<div class="right">RIGHT</div>`
+    }
+
+    var router = new VueRouter({
+        routes:[
+            {
+                //一个路径可以放多个组件
+                path:'/',
+                components:{
+                    'default':header,
+                    'left':leftbox,
+                    'right':rightbox
+                }
+            }
+           ]
+
+
+    })
+
+    var app = new Vue({
+        el: "#app",
+
+        router:router
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由嵌套</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+<div id="app">
+
+    <router-link to="/account">click</router-link>
+
+    <router-view></router-view>
+</div>
+
+<script>
+
+    var account={
+        template:`<div>account组件
+
+<router-link to="/account/login">登陆</router-link>
+<router-link to="/account/register">注册</router-link>
+
+<router-view></router-view>
+</div>`
+    }
+    var login = {
+        template:`<div>登陆 --- {{msg}} </div>`,
+        data(){
+            return{
+                msg:'拿到了',
+            }
+        },
+        //组件的生命周期钩子函数
+        created(){
+            console.log(this.$route.params)  //可以通过params拿到参数
+        }
+    }
+
+    var register = {
+        template:`<div>注册</div>`,
+    }
+
+    var routerule=new VueRouter({
+        routes:[
+             {
+                 path:'/account',
+                 component:account,
+                 //子路由
+                 children:[
+                     {
+                         //不加斜线 /
+                         path:'login',
+                         component:login
+                     },
+                     {
+                         path:'register',
+                         component:register
+                     }
+                 ]
+             },
+            {
+                path:'/',
+                redirect:'/account'
+            }
+
+            // {
+            //     //path表示监听路由链接
+            //     path:'/account/login',
+            //     //component表示对应的组件模版对象 而不能放名称 不能有字符串形式'' ！
+            //     component: login
+            // },
+            // {
+            //     path:'/account/register',
+            //     component:register
+            // },
+         ]
+    })
+
+    var app = new Vue({
+        el: "#app",
+
+        router:routerule
+
+    })
+</script>
+</body>
+</html>

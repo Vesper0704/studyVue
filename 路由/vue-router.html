@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <style>
+        .router-link-active{
+            color:blueviolet;
+            font-weight: bold;
+            font-size: x-large;
+        }
+
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform:translateX(150px);
+        }
+
+        .v-enter-active,.v-leave-active{
+            transition:all 1s ease;
+
+
+
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+<!--    方法1-->
+<!--    <a href="#/login">登陆</a>-->
+<!--    <a href="#/register">注册</a>-->
+
+<!--    默认渲染a标签  tag后面可以改变渲染的标签span button ...-->
+    <router-link to="/login" tag="button">登陆</router-link>
+    <router-link to="/register">注册</router-link>
+
+<!--    组件切换时有过渡动画 -->
+    <transition mode="out-in">
+<router-view></router-view>
+    </transition>
+
+</div>
+
+<script>
+
+    var login = {
+        template:`<div>登陆</div>`
+    }
+
+    var register = {
+        template:`<div>注册</div>`
+    }
+
+    var routerobj = new VueRouter({
+        //route表示路由匹配规则
+        routes:[
+            // {
+            //     path:'/',
+            //     component:login   //默认展示登陆组件
+            // },
+            {
+                path: '/',
+                redirect:'/login'  //重定向
+            },
+            {
+                //path表示监听路由链接
+                path:'/login',
+                //component表示对应的组件模版对象 而不能放名称 不能有字符串形式'' ！
+                component: login
+            },
+            {
+                path:'/register',
+                component:register
+            },
+
+        ]
+    })
+
+
+
+    var app = new Vue({
+        el: "#app",
+
+        router:routerobj,
+
+
+
+    })
+</script>
+</body>
+</html>

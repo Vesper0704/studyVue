@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+<div id="app">
+<!--    可以直接传参 -->
+<router-link to="/login?id=10&name=drj">登陆</router-link>
+    <router-link to="/register">注册</router-link>
+
+    <router-view></router-view>
+</div>
+
+<script>
+    var login = {
+        template:`<div>登陆 --- {{msg}}{{$route.query.id}} {{$route.query.name}}</div>`,
+        data(){
+            return{
+                msg:'拿到了：',
+            }
+        },
+        //组件的生命周期钩子函数
+        created(){
+            console.log(this.$route.query.id)  //可以拿到参数
+        }
+    }
+
+    var register = {
+        template:`<div>注册</div>`,
+
+
+    }
+
+    var routerobj = new VueRouter({
+        //route表示路由匹配规则
+        routes:[
+            // {
+            //     path:'/',
+            //     component:login   //默认展示登陆组件
+            // },
+            {
+                path: '/',
+                redirect:'/login'  //重定向
+            },
+            {
+                //path表示监听路由链接
+                path:'/login',
+                //component表示对应的组件模版对象 而不能放名称 不能有字符串形式'' ！
+                component: login
+            },
+            {
+                path:'/register',
+                component:register
+            },
+
+        ]
+    })
+
+    var app = new Vue({
+        el: "#app",
+
+        router:routerobj
+
+    })
+</script>
+</body>
+</html>
